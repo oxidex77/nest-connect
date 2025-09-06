@@ -9,16 +9,36 @@ const tenantRoutes = require('./src/routes/tenants');
 const propertyRoutes = require('./src/routes/properties');
 const requirementRoutes = require('./src/routes/requirements');
 const publicRoutes = require('./src/routes/public');
-const uploadRoutes = require('./src/routes/upload'); // <-- ADD THIS LINE
-
+const uploadRoutes = require('./src/routes/upload');
 
 const app = express();
 
 // --- Connect to MongoDB ---
 connectDB();
 
-// --- Middleware ---
-app.use(cors()); // Configure this more strictly for production
+// --- CRITICAL CORS CONFIGURATION ---
+// IMPORTANT: Replace 'your-project-name.vercel.app' with your actual Vercel project URL
+const allowedOrigins = [
+    'http://localhost:5173',
+    'https://nest-connect-web.vercel.app', // <-- ADD YOUR VERCEL URL HERE
+];
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or Postman)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+// --- END OF CORS CONFIGURATION ---
+
+
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
@@ -28,8 +48,7 @@ app.use('/api/tenants', tenantRoutes);
 app.use('/api/properties', propertyRoutes);
 app.use('/api/requirements', requirementRoutes);
 app.use('/api/public', publicRoutes);
-app.use('/api/upload', uploadRoutes); // <-- ADD THIS LINE
-
+app.use('/api/upload', uploadRoutes);
 
 // --- Health Check Route ---
 app.get('/health', (req, res) => {
