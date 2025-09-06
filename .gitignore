@@ -1,0 +1,54 @@
+# Node modules
+node_modules/
+
+# Expo
+.expo/
+.expo-shared/
+
+# Build output
+android/
+ios/
+web-build/
+dist/
+build/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+expo-debug.log
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE/Editor files
+.vscode/
+.idea/
+*.swp
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Package manager lock files (optional, uncomment if not needed)
+# yarn.lock
+# package-lock.json
+
+# Temporary files
+*.tmp
+*.temp
+
+# Metro cache
+.expo/.cache/
+.expo/web/
+.expo/packager-info.json
+.expo/settings.json
+
+# Coverage reports
+coverage/
+
+# Misc
+*.iml
