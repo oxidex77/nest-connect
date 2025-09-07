@@ -4,8 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { Provider as ReduxProvider, useSelector, useDispatch } from 'react-redux';
 import { store, RootState } from './src/redux/store';
-import { PaperProvider, MD3LightTheme, ActivityIndicator, View } from 'react-native-paper';
-
+import { PaperProvider, MD3LightTheme, ActivityIndicator } from 'react-native-paper';
+import { View } from 'react-native'; // <-- CORRECTED IMPORT
 import AppNavigator from './src/navigation/AppNavigator';
 import AuthNavigator from './src/navigation/AuthNavigator';
 import { getToken, getUserData } from './src/services/auth';
@@ -16,7 +16,7 @@ const theme = {
   colors: {
     ...MD3LightTheme.colors,
     primary: '#4F46E5',
-    background: '#F8FAFC', // A softer white
+    background: '#F8FAFC',
     surface: '#FFFFFF',
   },
 };
@@ -31,9 +31,7 @@ const AppContent = () => {
       try {
         const storedToken = await getToken();
         const storedUserData = await getUserData();
-
         if (storedToken && storedUserData) {
-          // We have a session, restore it in Redux
           dispatch(setCredentials({ ...storedUserData, token: storedToken }));
         }
       } catch (e) {
@@ -42,7 +40,6 @@ const AppContent = () => {
         setIsLoading(false);
       }
     };
-
     bootstrapApp();
   }, [dispatch]);
 
@@ -72,5 +69,4 @@ function App() {
 }
 
 registerRootComponent(App);
-
 export default App;

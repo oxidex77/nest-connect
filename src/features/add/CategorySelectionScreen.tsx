@@ -4,7 +4,7 @@ import { Text, Appbar } from 'react-native-paper';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { RootStackParamList } from '../../navigation/AppNavigator';
+import { RootStackParamList } from '../../navigation/types'; // <-- CORRECTED IMPORT
 
 const CATEGORIES = [
     { id: 'RESIDENTIAL_SALE', title: 'Residential Sale', icon: 'home-city-outline', group: 'Residential', color: '#10B981' },

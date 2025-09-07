@@ -150,7 +150,7 @@ const RegisterScreen = () => {
         <View style={styles.urlPreview}>
             <Text style={styles.urlText}>https://</Text>
             <Text style={[styles.urlText, {color: theme.colors.primary, fontWeight: 'bold'}]}>{form.preferredSubdomain || 'your-name'}</Text>
-            <Text style={styles.urlText}>.nest-connect.in</Text>
+            <Text style={styles.urlText}>nest-connect-webpage.vercel.app</Text>
         </View>
 
         <Button

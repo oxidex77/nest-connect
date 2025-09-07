@@ -60,5 +60,29 @@ router.patch('/me/subdomain', auth, async (req, res, next) => {
   }
 });
 
+router.get('/me/dashboard-stats', auth, async (req, res, next) => {
+    try {
+        const tenantId = req.user.tenantId;
+
+        // Run database queries in parallel for better performance
+        const [propertyCount, requirementCount] = await Promise.all([
+            Property.countDocuments({ tenantId: tenantId }),
+            Requirement.countDocuments({ tenantId: tenantId, status: 'active' })
+        ]);
+
+        // In the future, you can add more complex stats like site visits, etc.
+        const stats = {
+            totalProperties: propertyCount,
+            activeRequirements: requirementCount,
+            siteVisitsToday: 0, // Placeholder for now
+            scheduledVisits: 0, // Placeholder for now
+        };
+
+        res.json(stats);
+    } catch (error) {
+        next(error);
+    }
+});
+
 
 module.exports = router;

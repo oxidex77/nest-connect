@@ -17,16 +17,21 @@ const app = express();
 connectDB();
 
 // --- CRITICAL CORS CONFIGURATION ---
-// IMPORTANT: Replace 'your-project-name.vercel.app' with your actual Vercel project URL
+// IMPORTANT: Replace 'nest-connect-web.vercel.app' with your actual Vercel project URL
 const allowedOrigins = [
-    'http://localhost:5173',
-    'https://nest-connect-web.vercel.app', // <-- ADD YOUR VERCEL URL HERE
+    'http://localhost:5173', // For local web dev
+    'https://nest-connect-web.vercel.app', // Your Vercel preview domain
+    `https://nestconnect.in`, // Your main website
+    `https://*.nestconnect.in`, // <-- THIS IS THE CRITICAL FIX FOR ALL SUBDOMAINS
 ];
 
 const corsOptions = {
   origin: (origin, callback) => {
     // Allow requests with no origin (like mobile apps or Postman)
-    if (!origin || allowedOrigins.includes(origin)) {
+    if (!origin) return callback(null, true);
+
+    // Check if the origin matches our list or the wildcard pattern
+    if (allowedOrigins.some(o => new RegExp(`^${o.replace(/\*/g, '.*')}$`).test(origin))) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
@@ -37,7 +42,6 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 // --- END OF CORS CONFIGURATION ---
-
 
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));

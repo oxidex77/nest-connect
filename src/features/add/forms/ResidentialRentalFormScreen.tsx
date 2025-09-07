@@ -4,8 +4,7 @@ import { View, StyleSheet, ScrollView, SafeAreaView, TouchableOpacity, Alert } f
 import { Text, Appbar, TextInput, Button, Snackbar, HelperText } from 'react-native-paper';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
-import { RootStackParamList } from '../../../navigation/AppNavigator';
+import { RootStackParamList } from '../../../navigation/types'; // <-- CORRECTED IMPORT
 import { addProperty } from '../../../services/api';
 
 // --- Reusable Sub-Components ---

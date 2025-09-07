@@ -3,7 +3,7 @@ import Constants from 'expo-constants';
 // Get API URL from app.json extra config or fallback to localhost
 export const API_BASE_URL = Constants.expoConfig?.extra?.apiUrl || 'http://localhost:5000/api';
 
-export const MAIN_WEBSITE_URL = 'https://nest-connect.in';
+export const MAIN_WEBSITE_URL = 'https://nest-connect-webpage.vercel.app/';
 
 // Image upload settings
 export const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB

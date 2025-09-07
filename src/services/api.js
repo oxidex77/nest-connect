@@ -3,18 +3,17 @@ import Constants from 'expo-constants';
 import { getToken } from './auth';
 
 // Get API URL from app.json extra config or fallback to localhost
-const API_BASE_URL = Constants.expoConfig?.extra?.apiUrl || 'http://localhost:5000/api';
+const API_BASE_URL = 'https://nest-connect.onrender.com/api';
 
 console.log('🔗 API Base URL:', API_BASE_URL);
 
 const api = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 15000, // Increased timeout for network requests
+  timeout: 15000,
   headers: {
     'Content-Type': 'application/json',
   },
 });
-
 // Request Interceptor: Automatically add the auth token to every request
 api.interceptors.request.use(
   async (config) => {
@@ -102,6 +101,52 @@ export const addProperty = async (propertyData) => {
         throw new Error(error.response?.data?.message || 'Failed to list property.');
     }
 };
+
+// ... (keep all existing code: api setup, auth, property functions, etc.)
+
+/**
+ * Retrieves all requirements for the logged-in broker.
+ * @returns {Promise<Array>} - An array of the broker's requirements.
+ */
+export const getMyRequirements = async () => {
+  try {
+    const response = await api.get('/requirements/my');
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Failed to fetch requirements.');
+  }
+};
+
+/**
+ * Adds a new client requirement.
+ * @param {object} requirementData - The data for the new requirement.
+ * @returns {Promise<object>} - The newly created requirement object.
+ */
+export const addRequirement = async (requirementData) => {
+  try {
+    const response = await api.post('/requirements', requirementData);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Failed to add requirement.');
+  }
+};
+
+
+/**
+ * Fetches the dashboard statistics for the currently logged-in user.
+ * @returns {Promise<object>} - An object containing dashboard stats.
+ */
+export const getDashboardStats = async () => {
+  try {
+    const response = await api.get('/tenants/me/dashboard-stats');
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Failed to fetch dashboard stats.');
+  }
+};
+// --- We can add Project-related API functions here in the future ---
+// For now, Project Finder will be a UI-only feature as requested.
+
 
 // --- We will add other API functions (properties, requirements) here later ---
 

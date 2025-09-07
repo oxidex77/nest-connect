@@ -15,7 +15,16 @@ const SectionHeader = ({ title, icon }: { title: string, icon: string }) => (
         <Text style={styles.sectionTitle}>{title}</Text>
     </View>
 );
-
+    const handleInputChange = <T extends keyof FormData>(
+        section: T,
+        field: keyof FormData[T],
+        value: string
+    ) => {
+        setFormData(prev => ({
+            ...prev,
+            [section]: { ...prev[section], [field]: value }
+        }));
+    };
 const ButtonSelector = ({ options, selectedValue, onSelect, multiSelect = false }: {
     options: string[]; selectedValue: string | string[]; onSelect: (value: any) => void; multiSelect?: boolean;
 }) => {
